@@ -1,9 +1,11 @@
 const electron = require("electron");
 const sizeOf = require('image-size');
+
 const {app, BrowserWindow, ipcMain} = electron;
+let mainWindow;
 
 app.on("ready", () => {
-   const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
        webPreferences: {
            nodeIntegration: true
        }
@@ -13,6 +15,6 @@ app.on("ready", () => {
 
 ipcMain.on('getDimImg', (event, path) => {
     sizeOf(path, function(err, dimensions) {
-        console.log('largura:' + dimensions.width, 'altura:' + dimensions.height);
+        mainWindow.webContents.send('dimOfImg', dimensions);
     })
 });

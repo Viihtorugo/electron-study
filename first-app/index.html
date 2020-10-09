@@ -7,5 +7,17 @@
            <div>
                 <input type="file" accept="image/*">
            </div>
+           <button type="submit">Mostrar dimensões</button>
        </form>
+       <script>
+           const electron = require('electron');
+           const { ipcRenderer } = electron;
+
+           document.querySelector('form').addEventListener('submit', (event) => {
+               //inibir o comportamento padrão de envio do  formulario
+               event.preventDefault();
+               const {path} = document.querySelector('input').files[0];
+               ipcRenderer.send('getDimImg', path); 
+           });
+       </script>
 </body>
